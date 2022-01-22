@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/flaskapp
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: development
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      
+  
