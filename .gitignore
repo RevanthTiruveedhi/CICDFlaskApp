@@ -1,4 +1,5 @@
 env
+env/Lib/site-packages/
 *.pyc
 *.sqlite3
 src/.coverage
