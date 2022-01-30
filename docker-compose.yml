@@ -9,26 +9,12 @@ app:
       LANG: C.UTF-8
     expose:
       - "8000"
-    command:
-        - uwsgi
-        - "--socket /var/www/flaskapp/flaskapp.sock"
-        - "--chmod-socket=666"
-        - "--module flaskapp.wsgi"
-        - "--master"
-        - "--die-on-term"
-      
+    command: ["gunicorn", "-b", ":8000", "-w", "1", "app:app"]
+
 nginx:
     build: .
     dockerfile: Dockerfile.nginx
     links:
-        - app    
+        - app
     ports:
-        - "8000:8000"
-    volumes_from:
-        - webroot
-
-webroot:
-    build: .
-    volumes:
-        - /var/www/flaskapp
-    entrypoint: "true"
+        - "80:80"
