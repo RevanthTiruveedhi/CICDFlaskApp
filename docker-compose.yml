@@ -1,15 +1,34 @@
-version: "3.9"
-services:
-  web:
+app:
     build: .
-    ports:
-      - "5000:5000"
     volumes:
-      - .:/flaskapp
+      - .:/var/www/flaskapp
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
       LC_ALL: C.UTF-8
       LANG: C.UTF-8
+    expose:
+      - "8000"
+    command:
+        - uwsgi
+        - "--socket /var/www/flaskapp/flaskapp.sock"
+        - "--chmod-socket=666"
+        - "--module flaskapp.wsgi"
+        - "--master"
+        - "--die-on-term"
       
-  
+nginx:
+    build: .
+    dockerfile: Dockerfile.nginx
+    links:
+        - app    
+    ports:
+        - "8000:8000"
+    volumes_from:
+        - webroot
+
+webroot:
+    build: .
+    volumes:
+        - /var/www/flaskapp
+    entrypoint: "true"

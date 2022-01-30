@@ -3,21 +3,24 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  become: true
+  become_method: sudo
+  vars:
+    repository_url: https://github.com/RevanthTiruveedhi/CICDFlaskApp.git
+    repository_path: /
   tasks:
-  - name: Set facts
-    set_fact:
-      probe_host: "{{ lookup('env','PROBE_HOST') }}"
-      probe_port: "{{ lookup('env','PROBE_PORT') }}"
-      probe_delay: "{{ lookup('env','PROBE_DELAY') | default(0, true) }}"
-      probe_timeout: "{{ lookup('env','PROBE_TIMEOUT') | default(180, true) }}"
-  - name: Message
-    debug:
-      msg: >
-        Probing {{ probe_host }}:{{ probe_port }} with delay={{ probe_delay }}s
-        and timeout={{ probe_timeout}}s
-  - name: Waiting for host to respond...
-    local_action: >
-      wait_for host={{ probe_host }}
-      port={{ probe_port }}
-      delay={{ probe_delay }}
-      timeout={{ probe_timeout }}
+  - name: Install packages
+    apt: update_cache=yes name={{ item }} state=present
+    with_items:
+      - docker.io
+      - docker-compose
+      - docker
+
+  - name: Clone repository
+    git: repo='{{ repository_url }}' dest='{{ repository_path }}'
+
+  - name: Build and deploy app
+    shell: |
+      cd CICDFlaskApp
+      docker-compose build
+      docker-compose up
