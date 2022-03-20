@@ -17,7 +17,7 @@
       - docker
 
   - name: Clone repository
-    git: repo='{{ repository_url }}' dest='{{ repository_path }}'
+    git: repo='{{ repository_url }}' dest='{{ repository_path }}' force=no
 
   - name: Build and deploy app
     shell: |
