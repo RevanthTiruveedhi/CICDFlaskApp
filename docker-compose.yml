@@ -26,8 +26,5 @@ db:
     expose:
         - "3306"
     environment:
-        MYSQL_HOST: localhost
         MYSQL_DATABASE: employeeusers
-        MYSQL_USER: root
-        MYSQL_PASSWORD: Adminpassword123
-        MYSQL_ROOT_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: Adminpassword123
