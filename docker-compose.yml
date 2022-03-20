@@ -2,6 +2,8 @@ app:
     build: .
     volumes:
       - .:/var/www/flaskapp
+    links:
+      - db
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
@@ -16,7 +18,6 @@ nginx:
     dockerfile: Dockerfile.nginx
     links:
         - app
-        - db
     ports:
         - "80:80"
 
