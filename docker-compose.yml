@@ -9,7 +9,7 @@ app:
       LANG: C.UTF-8
     expose:
       - "8000"
-    depends_on:
+    links:
       - db
     command: ["gunicorn", "-b", ":8000", "-w", "1", "app:app"]
 
