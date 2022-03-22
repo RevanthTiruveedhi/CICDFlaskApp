@@ -28,6 +28,7 @@ db:
     ports:
         - "3306:3306"
     environment:
+        MYSQL_HOST: localhost
         MYSQL_DATABASE: employeeusers
         MYSQL_ROOT_PASSWORD: Adminpassword123
     volumes:
