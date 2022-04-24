@@ -32,5 +32,5 @@ db:
         MYSQL_DATABASE: employeeusers
         MYSQL_ROOT_PASSWORD: Adminpassword123
     volumes:
-      - ./sql-scripts:/docker-entrypoint-initdb.d
+      - ./sql-scripts:/docker-entrypoint-initdb.d 
     
